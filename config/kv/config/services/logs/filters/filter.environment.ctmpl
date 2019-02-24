@@ -1,0 +1,7 @@
+filter {
+    if ![environment] {
+        mutate {
+            add_field => { "environment" => "{{ keyOrDefault "config/services/consul/datacenter" "unknown"  }}" }
+        }
+    }
+}

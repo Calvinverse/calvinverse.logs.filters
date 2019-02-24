@@ -1,0 +1,18 @@
+config:
+  - key: config/services/logs/filters/filter.environment
+    file: filters/filter.environment.ctmpl
+
+  - key: config/services/logs/filters/filter.logs.builds
+    file: filters/filter.logs.builds.ctmpl
+
+  - key: config/services/logs/filters/input.rabbitmq.logs.builds
+    file: filters/input.rabbitmq.logs.builds.ctmpl
+
+  - key: config/services/logs/filters/input.rabbitmq.logs.syslog
+    file: filters/input.rabbitmq.logs.syslog.ctmpl
+
+  - key: config/services/logs/filters/output.elasticsearch.logs.builds
+    file: filters/output.elasticsearch.logs.builds.ctmpl
+
+  - key: config/services/logs/filters/output.elasticsearch.logs.syslog
+    file: filters/output.elasticsearch.logs.syslog.ctmpl
