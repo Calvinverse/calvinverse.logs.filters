@@ -9,9 +9,9 @@ input {
         queue => "{{ keyOrDefault "config/services/queue/logs/syslog/queue" "not-a-queue" }}"
         tags => ["logs.syslog"]
         vhost => "{{ keyOrDefault "config/services/queue/logs/syslog/vhost" "not-a-vhost" }}"
-    {{ with secret "rabbitmq/creds/read.vhost.logs.syslog" }}{{ if .Data.password }}
-        password("{{ .Data.password }}")
-        username("{{ .Data.username }}")
+    {{ with secret "rabbitmq/creds/readwrite.vhost.logs.syslog" }}{{ if .Data.password }}
+        password => "{{ .Data.password }}"
+        user => "{{ .Data.username }}"
     {{ end }}{{ end }}
     }
 }
