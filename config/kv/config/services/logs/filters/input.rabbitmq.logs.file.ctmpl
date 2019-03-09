@@ -2,14 +2,14 @@ input {
     rabbitmq {
         auto_delete => false
         host => ["{{ keyOrDefault "config/services/queue/protocols/amqp/host" "unknown" }}.service.{{ keyOrDefault "config/services/consul/domain" "unknown" }}"]
-        id => "id.rabbitmq.syslog"
-        key => "syslog"
+        id => "id.rabbitmq.file"
+        key => "file"
         passive => true
         port => {{ keyOrDefault "config/services/queue/protocols/amqp/port" "80" }}
-        queue => "{{ keyOrDefault "config/services/queue/logs/syslog/queue" "not-a-queue" }}"
-        tags => ["logs.linux.syslog"]
-        vhost => "{{ keyOrDefault "config/services/queue/logs/syslog/vhost" "not-a-vhost" }}"
-    {{ with secret "rabbitmq/creds/readwrite.vhost.logs.syslog" }}{{ if .Data.password }}
+        queue => "{{ keyOrDefault "config/services/queue/logs/file/queue" "not-a-queue" }}"
+        tags => ["logs.application.file"]
+        vhost => "{{ keyOrDefault "config/services/queue/logs/file/vhost" "not-a-vhost" }}"
+    {{ with secret "rabbitmq/creds/readwrite.vhost.logs.file" }}{{ if .Data.password }}
         password => "{{ .Data.password }}"
         user => "{{ .Data.username }}"
     {{ end }}{{ end }}

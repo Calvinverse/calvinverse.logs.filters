@@ -1,11 +1,11 @@
 output {
     if "_jsonparsefailure" not in [tags] {
-        if "logs.linux.syslog" in [tags] {
+        if "logs.linux.access" in [tags] {
             elasticsearch {
                 action => "index"
                 hosts => ["http://{{ keyOrDefault "config/services/documents/protocols/http/host" "unknown" }}.service.{{ keyOrDefault "config/services/consul/domain" "unknown" }}:{{ keyOrDefault "config/services/documents/protocols/http/port" "80" }}"]
-                id => "id.elasticsearch.index.logs.os.linux.syslog"
-                index => "logs-os-linux-syslog"
+                id => "id.elasticsearch.index.logs.os.linux.access"
+                index => "logs-os-linux-access"
             }
         }
     }
