@@ -1,0 +1,12 @@
+filter {
+    if "_jsonparsefailure" not in [tags] {
+        if "logs.linux.syslog" in [tags] {
+            if [prog] == "run_jenkins.sh" {
+                grok {
+                    add_tag => [ "logs.application.jenkins" ]
+                    remove_tag => [ "logs.linux.syslog" ]
+                }
+            }
+        }
+    }
+}

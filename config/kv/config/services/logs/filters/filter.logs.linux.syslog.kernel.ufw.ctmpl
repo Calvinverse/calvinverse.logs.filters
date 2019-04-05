@@ -1,0 +1,16 @@
+filter {
+    if "_jsonparsefailure" not in [tags] {
+        if "logs.linux.syslog" in [tags] {
+            // [UFW BLOCK] IN=eth0 OUT= MAC=01:00:5e:00:00:01:02:04:96:83:6a:99:08:00 SRC=172.17.35.254 DST=224.0.0.1 LEN=32 TOS=0x00 PREC=0xC0 TTL=1 ID=10305 PROTO=2
+            if [prog] == "kernel" {
+                grok {
+                    patterns_dir => "/etc/logstash/conf.d/patterns"
+                    match => [ "message", "%{MTS:pid}sinfo:sresponsesfors%{RRDOMAIN:rrdomain}s%{WORD:rrtype}s%{WORD:rrclass}" ]
+
+                    add_tag => [ "logs.application.kernel.ufw" ]
+                    remove_tag => [ "logs.linux.syslog" ]
+                }
+            }
+        }
+    }
+}

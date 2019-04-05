@@ -1,11 +1,19 @@
-output {
-    if "_jsonparsefailure" not in [tags] {
-        if "application.log.logstash" in [tags] {
+if "_jsonparsefailure" not in [tags] {
+    if "logs.application.logstash" in [tags] {
+
+        filter {
+            mutate {
+                id => "id.elasticsearch.mutate.logs.application.logstash.remove.tags"
+                remove_field => [ "[tags]" ]
+            }
+        }
+
+        output {
             elasticsearch {
                 action => "index"
                 hosts => ["http://{{ keyOrDefault "config/services/documents/protocols/http/host" "unknown" }}.service.{{ keyOrDefault "config/services/consul/domain" "unknown" }}:{{ keyOrDefault "config/services/documents/protocols/http/port" "80" }}"]
                 id => "id.elasticsearch.index.logs.application.logstash"
-                index => "logs-application-logstash"
+                index => "logs-application-logstash-%{+YYYY.MM.dd}"
             }
         }
     }

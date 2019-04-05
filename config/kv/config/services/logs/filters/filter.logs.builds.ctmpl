@@ -13,7 +13,7 @@ filter {
                         "agent" => "%{[data][buildHost]}"
                     }
 
-                    remove_field => [ "[data]" ]
+                    remove_field => [ "[data]", "[source]", "[source_host]" ]
                 }
             }
 
