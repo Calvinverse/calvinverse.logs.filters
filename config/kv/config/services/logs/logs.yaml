@@ -1,0 +1,76 @@
+config:
+  #
+  # INPUTS
+  #
+
+  - key: config/services/logs/filters/input.rabbitmq.logs.builds
+    file: filters/input.rabbitmq.logs.builds.ctmpl
+
+  - key: config/services/logs/filters/input.rabbitmq.logs.syslog
+    file: filters/input.rabbitmq.logs.syslog.ctmpl
+
+  #
+  # FILTERS
+  #
+
+  - key: config/services/logs/filters/filter.environment
+    file: filters/filter.environment.ctmpl
+
+  - key: config/services/logs/filters/filter.logs.builds
+    file: filters/filter.logs.builds.ctmpl
+
+  - key: config/services/logs/filters/filter.logs.linux.syslog.dhclient
+    file: filters/filter.logs.linux.syslog.dhclient.ctmpl
+
+  - key: config/services/logs/filters/filter.logs.linux.syslog.unbound
+    file: filters/filter.logs.linux.syslog.unbound.ctmpl
+
+  #
+  # OUTPUTS
+  #
+
+  # BUILDS
+
+  - key: config/services/logs/filters/output.elasticsearch.logs.builds
+    file: filters/output.elasticsearch.logs.builds.ctmpl
+
+  # LINUX - ACCESS
+
+  - key: config/services/logs/filters/output.elasticsearch.logs.linux.access
+    file: filters/output.elasticsearch.logs.linux.access.ctmpl
+
+  # LINUX - SYSLOG - APPLICATIONS
+
+  - key: config/services/logs/filters/output.elasticsearch.logs.consul
+    file: filters/output.elasticsearch.logs.consul.ctmpl
+
+  - key: config/services/logs/filters/output.elasticsearch.logs.fabio
+    file: filters/output.elasticsearch.logs.fabio.ctmpl
+
+  - key: config/services/logs/filters/output.elasticsearch.logs.jenkins
+    file: filters/output.elasticsearch.logs.jenkins.ctmpl
+
+  - key: config/services/logs/filters/output.elasticsearch.logs.kibana
+    file: filters/output.elasticsearch.logs.kibana.ctmpl
+
+  - key: config/services/logs/filters/output.elasticsearch.logs.logstash
+    file: filters/output.elasticsearch.logs.logstash.ctmpl
+
+  - key: config/services/logs/filters/output.elasticsearch.logs.rabbitmq
+    file: filters/output.elasticsearch.logs.rabbitmq.ctmpl
+
+  - key: config/services/logs/filters/output.elasticsearch.logs.unbound
+    file: filters/output.elasticsearch.logs.unbound.ctmpl
+
+  - key: config/services/logs/filters/output.elasticsearch.logs.vault
+    file: filters/output.elasticsearch.logs.vault.ctmpl
+
+  # LINUX - SYSLOG - FALLBACK
+
+  - key: config/services/logs/filters/output.elasticsearch.logs.syslog
+    file: filters/output.elasticsearch.logs.syslog.ctmpl
+
+  # WINDOWS - EVENTLOG
+
+  - key: config/services/logs/filters/output.elasticsearch.logs.windows.eventlog
+    file: filters/output.elasticsearch.logs.windows.eventlog.ctmpl

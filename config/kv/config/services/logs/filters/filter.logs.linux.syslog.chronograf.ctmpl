@@ -1,0 +1,12 @@
+filter {
+    if "_jsonparsefailure" not in [tags] {
+        if "logs.linux.syslog" in [tags] {
+            if [prog] == "chronograf" {
+                grok {
+                    add_tag => [ "logs.application.chronograf" ]
+                    remove_tag => [ "logs.linux.syslog" ]
+                }
+            }
+        }
+    }
+}

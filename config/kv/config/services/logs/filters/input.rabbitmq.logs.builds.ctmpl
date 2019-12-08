@@ -1,0 +1,17 @@
+input {
+    rabbitmq {
+        auto_delete => false
+        host => ["{{ keyOrDefault "config/services/queue/protocols/amqp/host" "unknown" }}.service.{{ keyOrDefault "config/services/consul/domain" "unknown" }}"]
+        id => "id.rabbitmq.builds"
+        key => "builds"
+        passive => true
+        port => {{ keyOrDefault "config/services/queue/protocols/amqp/port" "80" }}
+        queue => "{{ keyOrDefault "config/services/queue/logs/builds/queue" "not-a-queue" }}"
+        tags => ["logs.builds"]
+        vhost => "{{ keyOrDefault "config/services/queue/logs/builds/vhost" "not-a-vhost" }}"
+    {{ with secret "rabbitmq/creds/readwrite.vhost.logs.builds" }}{{ if .Data.password }}
+        password => "{{ .Data.password }}"
+        user => "{{ .Data.username }}"
+    {{ end }}{{ end }}
+    }
+}
