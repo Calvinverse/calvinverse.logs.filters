@@ -1,0 +1,20 @@
+if "_jsonparsefailure" not in [tags] {
+    if "logs.application.jenkins" in [tags] {
+
+        filter {
+            mutate {
+                id => "id.elasticsearch.mutate.logs.application.jenkins.remove.tags"
+                remove_field => [ "[tags]" ]
+            }
+        }
+
+        output {
+            elasticsearch {
+                action => "index"
+                hosts => ["http://{{ keyOrDefault "config/services/documents/protocols/http/host" "unknown" }}.service.{{ keyOrDefault "config/services/consul/domain" "unknown" }}:{{ keyOrDefault "config/services/documents/protocols/http/port" "80" }}"]
+                id => "id.elasticsearch.index.logs.application.jenkins"
+                index => "logs-application-jenkins-%{+YYYY.MM.dd}"
+            }
+        }
+    }
+}

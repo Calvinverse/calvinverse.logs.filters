@@ -1,0 +1,15 @@
+filter {
+    if "_jsonparsefailure" not in [tags] {
+        if "logs.linux.syslog" in [tags] {
+            if [prog] == "rabbitmq-server" {
+                grok {
+                    patterns_dir => "/etc/logstash/conf.d/patterns"
+                    match => [ "message", "%{MTS:pid}sinfo:sresponsesfors%{RRDOMAIN:rrdomain}s%{WORD:rrtype}s%{WORD:rrclass}" ]
+
+                    add_tag => [ "logs.application.rabbitmq" ]
+                    remove_tag => [ "logs.linux.syslog" ]
+                }
+            }
+        }
+    }
+}

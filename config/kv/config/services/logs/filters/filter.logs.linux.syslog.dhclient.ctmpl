@@ -1,0 +1,68 @@
+filter {
+    if "_jsonparsefailure" not in [tags] {
+        if "logs.linux.syslog" in [tags] {
+            if [prog] == "dhclient" {
+
+                grok {
+                    break_on_match => true
+                    match => { "message" => "DHCPDISCOVER" }
+                    add_tag => "dhcp"
+                    add_tag => "dhcp-discover"
+                }
+                grok {
+                    break_on_match => true
+                    match => { "message" => "DHCPOFFER" }
+                    add_tag => "dhcp"
+                    add_tag => "dhcp-offer"
+                }
+                grok {
+                    break_on_match => true
+                    match => { "message" => "DHCPREQUEST" }
+                    add_tag => "dhcp"
+                    add_tag => "dhcp-request"
+                }
+                grok {
+                    break_on_match => true
+                    match => { "message" => "DHCPDACK" }
+                    add_tag => "dhcp"
+                    add_tag => "dhcp-acknowledge"
+                }
+                grok {
+                    break_on_match => true
+                    match => { "message" => "DHCPNAK" }
+                    add_tag => "dhcp"
+                    add_tag => "dhcp-nak"
+                }
+                grok {
+                    break_on_match => true
+                    match => { "message" => "DHCPDECLINE" }
+                    add_tag => "dhcp"
+                    add_tag => "dhcp-decline"
+                }
+                grok {
+                    break_on_match => true
+                    match => { "message" => "DHCPRELEASE" }
+                    add_tag => "dhcp"
+                    add_tag => "dhcp-release"
+                }
+                grok {
+                    break_on_match => true
+                    match => { "message" => "DHCPINFORM" }
+                    add_tag => "dhcp"
+                    add_tag => "dhcp-inform"
+                }
+                if ("dhcp" in [tags]) {
+                    grok {
+                        pattern_definitions => {
+                            "DHCPD" => "((%{SYSLOGTIMESTAMP:timestamp})\s*(%{HOSTNAME:hostname})\s*dhcpd\S+\s*(%{WORD:dhcp_action})?.*[for|on] (%{IPV4:dhcp_client_ip})?.*[from|to] (%{COMMONMAC:dhcp_client_mac})?.*via (%{USERNAME:interface}))"
+                        }
+                        match => { "message" => "%{DHCPD}" }
+
+                        add_tag => [ "logs.application.dhclient" ]
+                        remove_tag => [ "logs.linux.syslog" ]
+                    }
+                }
+            }
+        }
+    }
+}

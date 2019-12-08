@@ -1,0 +1,26 @@
+filter {
+    if "_jsonparsefailure" not in [tags] {
+        if "logs.builds" in [tags] {
+            if [data] {
+                mutate {
+                    id => "filter.mutate.logs.builds.alter"
+                    remove_field => [ "[data][buildVariables]", "[data][sensitiveBuildVariables]" ]
+
+                    add_field => {
+                        "projectName" => "%{[data][projectName]}"
+                        "fullProjectName" => "%{[data][fullProjectName]}"
+                        "buildNumber" => "%{[data][id]}"
+                        "agent" => "%{[data][buildHost]}"
+                    }
+
+                    remove_field => [ "[data]", "[source]", "[source_host]" ]
+                }
+            }
+
+            mutate {
+                id => "filter.mutate.logs.builds.remove.unusedfields"
+                remove_field => [ "[@buildTimestamp]", "[@version]" ]
+            }
+        }
+    }
+}
